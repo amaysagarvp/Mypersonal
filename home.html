@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My memorable page · personal</title>
-  <!-- Font Awesome for icons (optional but nice) -->
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -35,6 +35,46 @@
       padding: 2.2rem 2.5rem;
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 235, 200, 0.5);
+    }
+
+    /* Navigation styles */
+    .navigation {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e6d6b8;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      text-decoration: none;
+      color: #6b5a48;
+      font-weight: 500;
+      background: transparent;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid transparent;
+    }
+
+    .nav-link:hover {
+      background: #ede3d7;
+      color: #3d2e1e;
+      border-color: #dccfc0;
+    }
+
+    .nav-link.active {
+      background: #dcc6b0;
+      color: #2f2418;
+      border-color: #b48b6b;
+    }
+
+    .nav-link i {
+      font-size: 1.1rem;
     }
 
     /* header / intro */
@@ -203,6 +243,188 @@
       color: #942d2d;
     }
 
+    /* Button group for actions */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .action-btn {
+      background: transparent;
+      border: 1.5px solid #dac2ab;
+      color: #a58368;
+      border-radius: 40px;
+      padding: 0.2rem 1rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fcf6ee;
+    }
+
+    .action-btn:hover {
+      background: #f5e8db;
+      border-color: #b48b6b;
+      color: #3f2e1c;
+    }
+
+    .action-btn.delete-btn:hover {
+      background: #fce7e7;
+      border-color: #c44f4f;
+      color: #942d2d;
+    }
+
+    .action-btn.edit-btn:hover {
+      background: #e7f0f5;
+      border-color: #6b8fa5;
+      color: #2a5f7a;
+    }
+
+    /* Edit modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fffbf5;
+      border-radius: 2rem;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid #f1e3d2;
+    }
+
+    .modal-content h2 {
+      color: #3d2e1e;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-content h2 i {
+      color: #b48b6b;
+    }
+
+    .modal-content label {
+      display: block;
+      margin: 1rem 0 0.4rem;
+      color: #5a4a38;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #dccfc0;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: #fffcf7;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .modal-content input:focus,
+    .modal-content textarea:focus {
+      border-color: #b48b6b;
+      box-shadow: 0 0 0 3px rgba(180, 139, 107, 0.2);
+    }
+
+    .modal-content textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 1.5rem;
+      justify-content: flex-end;
+    }
+
+    .modal-actions button {
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-actions .save-btn {
+      background: #dcc6b0;
+      color: #2f2418;
+    }
+
+    .modal-actions .save-btn:hover {
+      background: #d4bea8;
+      transform: scale(1.02);
+    }
+
+    .modal-actions .cancel-btn {
+      background: transparent;
+      color: #6b5a48;
+      border: 1.5px solid #dac2ab;
+    }
+
+    .modal-actions .cancel-btn:hover {
+      background: #f5e8db;
+    }
+
+    /* Icon selector */
+    .icon-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+      gap: 8px;
+      margin: 0.5rem 0;
+    }
+
+    .icon-option {
+      background: #fcf8f2;
+      border: 2px solid #ede3d7;
+      border-radius: 12px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1.3rem;
+    }
+
+    .icon-option:hover {
+      border-color: #b48b6b;
+      background: #f5ede4;
+    }
+
+    .icon-option.selected {
+      border-color: #b48b6b;
+      background: #e7d7c4;
+    }
+
     /* footer / add new memory */
     .add-memory-area {
       margin-top: 2rem;
@@ -292,6 +514,79 @@
       white-space: nowrap;
     }
 
+    /* Activity Log Styles */
+    .activity-log {
+      margin-top: 2rem;
+      padding-top: 1.8rem;
+      border-top: 2px dashed #e6d6b8;
+    }
+
+    .activity-log h3 {
+      font-weight: 500;
+      color: #3d2e1e;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .activity-log h3 i {
+      color: #b48b6b;
+    }
+
+    .log-container {
+      max-height: 200px;
+      overflow-y: auto;
+      background: #fcf8f2;
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      border: 1px solid #f1e3d2;
+    }
+
+    .log-item {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #ede3d7;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: #5a4a38;
+    }
+
+    .log-item:last-child {
+      border-bottom: none;
+    }
+
+    .log-item .log-time {
+      color: #a58d78;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      min-width: 80px;
+    }
+
+    .log-item .log-icon {
+      color: #b48b6b;
+      font-size: 0.9rem;
+    }
+
+    .log-item .log-action {
+      color: #2f2418;
+      font-weight: 500;
+    }
+
+    .log-item .log-title {
+      color: #3d2e1e;
+      font-weight: 600;
+    }
+
+    .empty-log {
+      text-align: center;
+      padding: 1.5rem;
+      color: #a58d78;
+      font-style: italic;
+    }
+
     .footer-note {
       margin-top: 0.8rem;
       font-size: 0.8rem;
@@ -305,11 +600,23 @@
       .card { padding: 1.5rem; }
       .profile { flex-direction: column; align-items: flex-start; }
       .greeting h1 { font-size: 2.2rem; }
+      .navigation { justify-content: center; }
+      .nav-link { padding: 0.5rem 1.2rem; font-size: 0.9rem; }
     }
   </style>
 </head>
 <body>
 <div class="card" id="app">
+
+  <!-- NAVIGATION BUTTONS -->
+  <div class="navigation">
+    <a href="../Mypersonal/home.html" class="nav-link active">
+      <i class="fas fa-bookmark"></i> Memories
+    </a>
+    <a href="../Mypersonal/gallary.html" class="nav-link">
+      <i class="fas fa-images"></i> Gallery
+    </a>
+  </div>
 
   <!-- profile header -->
   <div class="profile">
@@ -317,7 +624,7 @@
       <i class="fas fa-feather-alt"></i>
     </div>
     <div class="greeting">
-      <h1>✦ My memorable things</h1>
+      <h1>✦ My Memories</h1>
       <p>
         <i class="fas fa-map-pin"></i> moments that matter ·
         <span id="memoryCounter">3</span> memories
@@ -327,7 +634,7 @@
 
   <!-- memories grid -->
   <div class="memories-grid" id="memoriesContainer">
-    <!-- items will be injected via js, but we keep static fallback -->
+    <!-- items will be injected via js -->
   </div>
 
   <!-- add new memory -->
@@ -341,15 +648,55 @@
       <i class="far fa-heart"></i> <span id="likeCounter">0</span>
     </div>
   </div>
+
+  <!-- Activity Log -->
+  <div class="activity-log">
+    <h3><i class="fas fa-clock"></i> Activity Log</h3>
+    <div class="log-container" id="logContainer">
+      <!-- logs will be injected here -->
+    </div>
+  </div>
+
   <div class="footer-note">
     <i class="fas fa-arrow-right"></i> click heart to like · each memory is yours
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal" id="editModal">
+  <div class="modal-content">
+    <h2><i class="fas fa-edit"></i> Edit Memory</h2>
+    <label for="editTitle">Title</label>
+    <input type="text" id="editTitle" placeholder="Memory title">
+    
+    <label for="editDescription">Description</label>
+    <textarea id="editDescription" placeholder="Write something about this memory..."></textarea>
+    
+    <label>Choose Icon</label>
+    <div class="icon-selector" id="iconSelector">
+      <!-- Icons will be injected here -->
+    </div>
+    
+    <div class="modal-actions">
+      <button class="cancel-btn" id="cancelEditBtn"><i class="fas fa-times"></i> Cancel</button>
+      <button class="save-btn" id="saveEditBtn"><i class="fas fa-save"></i> Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <script>
   (function() {
+    // ---------- AVAILABLE ICONS ----------
+    const availableIcons = [
+      'fa-star', 'fa-heart', 'fa-mountain', 'fa-umbrella-beach', 
+      'fa-graduation-cap', 'fa-camera', 'fa-music', 'fa-book',
+      'fa-pizza-slice', 'fa-plane', 'fa-tree', 'fa-sun',
+      'fa-moon', 'fa-cloud', 'fa-snowflake', 'fa-car',
+      'fa-bicycle', 'fa-coffee', 'fa-wine-glass', 'fa-cake',
+      'fa-gift', 'fa-fire', 'fa-rocket', 'fa-flower'
+    ];
+
     // ---------- MEMORY DATA ----------
-    // preloaded memorable moments (feel free to change)
     const defaultMemories = [
       {
         id: 1,
@@ -377,10 +724,87 @@
       }
     ];
 
-    // load from localStorage or use defaults
     let memories = [];
     let nextId = 1;
+    let activityLog = [];
+    let editingId = null;
+    let selectedIcon = 'fa-star';
 
+    // ---------- ACTIVITY LOG ----------
+    function addLogEntry(action, title, icon = 'fa-plus-circle') {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      
+      activityLog.unshift({
+        action: action,
+        title: title,
+        time: `${dateStr} ${timeStr}`,
+        icon: icon
+      });
+
+      if (activityLog.length > 50) {
+        activityLog = activityLog.slice(0, 50);
+      }
+
+      saveLogs();
+      renderLog();
+    }
+
+    function saveLogs() {
+      localStorage.setItem('myActivityLog', JSON.stringify(activityLog));
+    }
+
+    function loadLogs() {
+      const stored = localStorage.getItem('myActivityLog');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            activityLog = parsed;
+            return;
+          }
+        } catch (e) { /* ignore */ }
+      }
+      activityLog = [
+        { action: 'created', title: 'First hike in the Alps', time: 'Jun 2024 10:30', icon: 'fa-plus-circle' },
+        { action: 'created', title: 'Graduation day', time: 'May 2023 14:20', icon: 'fa-plus-circle' },
+        { action: 'created', title: 'Beach sunset with friends', time: 'Aug 2022 19:45', icon: 'fa-plus-circle' }
+      ];
+      saveLogs();
+    }
+
+    function renderLog() {
+      const logContainer = document.getElementById('logContainer');
+      if (!logContainer) return;
+
+      if (activityLog.length === 0) {
+        logContainer.innerHTML = `
+          <div class="empty-log">
+            <i class="fas fa-clock" style="font-size: 1.2rem; opacity: 0.5;"></i>
+            <p style="margin-top: 6px;">No activity yet</p>
+          </div>
+        `;
+        return;
+      }
+
+      logContainer.innerHTML = activityLog.map(log => {
+        const actionText = log.action === 'liked' ? '❤️ liked' : 
+                          log.action === 'unliked' ? '💔 unliked' : 
+                          log.action === 'deleted' ? '🗑️ deleted' : 
+                          log.action === 'updated' ? '✏️ updated' : '📝 added';
+        return `
+          <div class="log-item">
+            <span class="log-time">${log.time}</span>
+            <span class="log-icon"><i class="fas ${log.icon}"></i></span>
+            <span class="log-action">${actionText}</span>
+            <span class="log-title">"${escapeHtml(log.title)}"</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ---------- MEMORY FUNCTIONS ----------
     function loadMemories() {
       const stored = localStorage.getItem('myMemoriesData');
       if (stored) {
@@ -388,14 +812,12 @@
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed) && parsed.length) {
             memories = parsed;
-            // find max id for nextId
             const maxId = memories.reduce((acc, m) => (m.id > acc ? m.id : acc), 0);
             nextId = maxId + 1;
             return;
           }
         } catch (e) { /* ignore */ }
       }
-      // fallback to defaults
       memories = defaultMemories.map(m => ({ ...m }));
       const maxId = memories.reduce((acc, m) => (m.id > acc ? m.id : acc), 0);
       nextId = maxId + 1;
@@ -436,6 +858,14 @@
               <button class="heart-btn ${likedClass}" data-id="${memory.id}">
                 <i class="${heartIcon}"></i> ${memory.liked ? 'liked' : 'like'}
               </button>
+              <div class="action-buttons">
+                <button class="action-btn edit-btn" data-id="${memory.id}">
+                  <i class="fas fa-edit"></i> edit
+                </button>
+                <button class="action-btn delete-btn" data-id="${memory.id}">
+                  <i class="fas fa-trash-alt"></i> delete
+                </button>
+              </div>
             </div>
           `;
         }).join('');
@@ -446,7 +876,7 @@
       const totalLikes = memories.filter(m => m.liked).length;
       if (likeCounterSpan) likeCounterSpan.textContent = totalLikes;
 
-      // re-attach event listeners to like buttons
+      // re-attach event listeners
       document.querySelectorAll('.heart-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -456,9 +886,28 @@
           }
         });
       });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const id = parseInt(this.dataset.id, 10);
+          if (!isNaN(id)) {
+            deleteMemory(id);
+          }
+        });
+      });
+
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const id = parseInt(this.dataset.id, 10);
+          if (!isNaN(id)) {
+            openEditModal(id);
+          }
+        });
+      });
     }
 
-    // simple escape to prevent XSS
     function escapeHtml(text) {
       if (!text) return '';
       const div = document.createElement('div');
@@ -471,11 +920,87 @@
       const memory = memories.find(m => m.id === id);
       if (memory) {
         memory.liked = !memory.liked;
+        const action = memory.liked ? 'liked' : 'unliked';
+        const icon = memory.liked ? 'fa-heart' : 'fa-heart-broken';
+        addLogEntry(action, memory.title, icon);
         saveMemories();
         render();
       }
     }
 
+    function deleteMemory(id) {
+      if (confirm('Delete this memory?')) {
+        const memory = memories.find(m => m.id === id);
+        if (memory) {
+          const title = memory.title;
+          memories = memories.filter(m => m.id !== id);
+          saveMemories();
+          render();
+          addLogEntry('deleted', title, 'fa-trash-alt');
+        }
+      }
+    }
+
+    // ---------- EDIT MODAL ----------
+    function openEditModal(id) {
+      const memory = memories.find(m => m.id === id);
+      if (!memory) return;
+
+      editingId = id;
+      document.getElementById('editTitle').value = memory.title;
+      document.getElementById('editDescription').value = memory.description || '';
+      selectedIcon = memory.icon || 'fa-star';
+      
+      // Render icon selector
+      const iconSelector = document.getElementById('iconSelector');
+      iconSelector.innerHTML = availableIcons.map(icon => `
+        <div class="icon-option ${icon === selectedIcon ? 'selected' : ''}" data-icon="${icon}">
+          <i class="fas ${icon}"></i>
+        </div>
+      `).join('');
+
+      // Add click listeners to icon options
+      document.querySelectorAll('.icon-option').forEach(el => {
+        el.addEventListener('click', function() {
+          document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('selected'));
+          this.classList.add('selected');
+          selectedIcon = this.dataset.icon;
+        });
+      });
+
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('active');
+      editingId = null;
+    }
+
+    function saveEdit() {
+      if (editingId === null) return;
+
+      const title = document.getElementById('editTitle').value.trim();
+      const description = document.getElementById('editDescription').value.trim();
+
+      if (!title) {
+        alert('Please enter a title.');
+        return;
+      }
+
+      const memory = memories.find(m => m.id === editingId);
+      if (memory) {
+        const oldTitle = memory.title;
+        memory.title = title;
+        memory.description = description || 'A special moment to remember.';
+        memory.icon = selectedIcon;
+        saveMemories();
+        render();
+        addLogEntry('updated', title, 'fa-edit');
+        closeEditModal();
+      }
+    }
+
+    // ---------- ADD MEMORY ----------
     function addMemory(title) {
       const trimmed = title.trim();
       if (trimmed === '') {
@@ -494,15 +1019,18 @@
       memories.push(newMemory);
       saveMemories();
       render();
+      addLogEntry('added', trimmed, 'fa-plus-circle');
       return true;
     }
 
     // ---------- SETUP UI ----------
     document.addEventListener('DOMContentLoaded', function() {
       loadMemories();
+      loadLogs();
       render();
+      renderLog();
 
-      // add button
+      // Add button
       const addBtn = document.getElementById('addMemoryBtn');
       const inputField = document.getElementById('memoryInput');
       if (addBtn && inputField) {
@@ -519,7 +1047,23 @@
         });
       }
 
-      // optional: remove memory? we didn't add remove to keep it simple, but we can add double-click to remove? (not needed)
+      // Modal events
+      document.getElementById('cancelEditBtn').addEventListener('click', closeEditModal);
+      document.getElementById('saveEditBtn').addEventListener('click', saveEdit);
+      
+      // Close modal on outside click
+      document.getElementById('editModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeEditModal();
+        }
+      });
+
+      // Enter key in modal
+      document.getElementById('editTitle').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          saveEdit();
+        }
+      });
     });
 
   })();
