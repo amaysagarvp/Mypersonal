@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My photo gallery · upload</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f7f3e9 0%, #fff9f0 100%);
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .gallery-card {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 250, 240, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 3.5rem 3.5rem 2.5rem 2.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.7);
+      padding: 2.2rem 2.5rem;
+      border: 1px solid rgba(255, 235, 200, 0.5);
+      transition: 0.2s;
+    }
+
+    /* header */
+    .gallery-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px dashed #e6d6b8;
+      padding-bottom: 1.4rem;
+    }
+
+    .gallery-header h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: #3d2e1e;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gallery-header h1 i {
+      color: #b48b6b;
+    }
+
+    .photo-counter {
+      background: #ede3d7;
+      padding: 0.4rem 1.4rem;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      color: #4d3e2e;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    /* upload zone */
+    .upload-zone {
+      background: #fcf8f2;
+      border: 2px dashed #dccfc0;
+      border-radius: 2.5rem;
+      padding: 1.8rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      margin-bottom: 2.2rem;
+      transition: 0.2s;
+    }
+
+    .upload-zone:hover {
+      border-color: #b48b6b;
+      background: #fffcf7;
+    }
+
+    .upload-zone .label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 500;
+      color: #3d2e1e;
+      font-size: 1.1rem;
+    }
+
+    .upload-zone .label i {
+      font-size: 2rem;
+      color: #8b6f52;
+    }
+
+    .upload-zone input[type="file"] {
+      display: none;
+    }
+
+    .upload-zone .file-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .upload-btn {
+      background: #dcc6b0;
+      border: none;
+      padding: 0.7rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #2f2418;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+      border: 1px solid #ceb69b;
+      background: #e7d7c4;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-btn:hover {
+      background: #d4bea8;
+      border-color: #b18666;
+      transform: scale(1.02);
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: 1px solid #dac2ab;
+      padding: 0.6rem 1.4rem;
+      border-radius: 60px;
+      color: #6b5a48;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .clear-btn:hover {
+      background: #f5e8db;
+      border-color: #b48b6b;
+      color: #3f2e1c;
+    }
+
+    /* photo grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 1.8rem 0 1rem;
+    }
+
+    .photo-card {
+      background: #fffbf5;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(150, 110, 70, 0.08);
+      border: 1px solid #f1e3d2;
+      transition: 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-6px);
+      border-color: #dbbd9e;
+      box-shadow: 0 16px 28px -8px rgba(100, 70, 40, 0.15);
+    }
+
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: #ede3d7;
+    }
+
+    .photo-card .photo-info {
+      padding: 0.8rem 0.9rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fffcf7;
+      border-top: 1px solid #f1e3d2;
+    }
+
+    .photo-card .photo-info .name {
+      font-weight: 500;
+      color: #3d2e1e;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+
+    .photo-card .photo-info .delete-btn {
+      background: transparent;
+      border: none;
+      color: #b48b6b;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0 6px;
+      transition: 0.2s;
+      opacity: 0.6;
+    }
+
+    .photo-card .photo-info .delete-btn:hover {
+      color: #c44f4f;
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .empty-gallery {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b5a48;
+      background: #f5ede4;
+      border-radius: 3rem;
+    }
+
+    .empty-gallery i {
+      font-size: 3rem;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+
+    .footer-note {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #a58d78;
+      text-align: right;
+      letter-spacing: 0.3px;
+      border-top: 1px solid #ede3d7;
+      padding-top: 1.2rem;
+    }
+
+    /* toast */
+    .toast-message {
+      background: #3d2e1e;
+      color: #f5ede4;
+      padding: 0.5rem 1.5rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast-message.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .gallery-card { padding: 1.5rem; }
+      .gallery-header h1 { font-size: 1.8rem; }
+      .upload-zone { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="gallery-card" id="galleryApp">
+  <!-- header -->
+  <div class="gallery-header">
+    <h1><i class="fas fa-images"></i> photo gallery</h1>
+    <span class="photo-counter" id="photoCounter"><i class="far fa-image"></i> <span id="photoCountNum">0</span> photos</span>
+  </div>
+
+  <!-- upload zone -->
+  <div class="upload-zone">
+    <div class="label">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <span>Drop images or click to browse</span>
+    </div>
+    <div class="file-actions">
+      <input type="file" id="fileInput" accept="image/*" multiple />
+      <button class="upload-btn" id="triggerUpload"><i class="fas fa-plus-circle"></i> upload</button>
+      <button class="clear-btn" id="clearAllBtn"><i class="fas fa-trash-alt"></i> clear all</button>
+    </div>
+  </div>
+
+  <!-- photo grid -->
+  <div class="photo-grid" id="photoGrid">
+    <!-- photos injected by js -->
+  </div>
+
+  <div class="footer-note">
+    <i class="fas fa-arrow-right"></i> your photos are stored locally · 2 MB max per image
+  </div>
+</div>
+
+<!-- toast -->
+<div id="toast" class="toast-message">✨ uploaded</div>
+
+<script>
+  (function() {
+    // ---------- STORAGE ----------
+    const STORAGE_KEY = 'myPhotoGalleryData';
+
+    // load photos from localStorage (base64 array)
+    let photos = [];
+
+    function loadPhotos() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            photos = parsed;
+            return;
+          }
+        } catch (e) { /* ignore */ }
+      }
+      photos = [];
+    }
+
+    function savePhotos() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
+    }
+
+    // ---------- RENDER ----------
+    const grid = document.getElementById('photoGrid');
+    const counterSpan = document.getElementById('photoCountNum');
+
+    function render() {
+      if (!grid) return;
+
+      if (photos.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-gallery">
+            <div><i class="fas fa-camera"></i></div>
+            <p>No photos yet — upload your first memory 📸</p>
+          </div>
+        `;
+      } else {
+        grid.innerHTML = photos.map((photo, index) => {
+          // photo is { id, dataURL, name, timestamp }
+          const displayName = photo.name || 'image';
+          return `
+            <div class="photo-card" data-index="${index}">
+              <img src="${photo.dataURL}" alt="${displayName}" loading="lazy" />
+              <div class="photo-info">
+                <span class="name" title="${displayName}">${displayName}</span>
+                <button class="delete-btn" data-index="${index}" title="delete photo"><i class="fas fa-times-circle"></i></button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // attach delete events
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const idx = parseInt(this.dataset.index, 10);
+            if (!isNaN(idx)) {
+              deletePhoto(idx);
+            }
+          });
+        });
+      }
+
+      // update counter
+      if (counterSpan) counterSpan.textContent = photos.length;
+    }
+
+    // ---------- PHOTO ACTIONS ----------
+    function deletePhoto(index) {
+      if (index >= 0 && index < photos.length) {
+        photos.splice(index, 1);
+        savePhotos();
+        render();
+        showToast('🗑️ photo removed');
+      }
+    }
+
+    function clearAllPhotos() {
+      if (photos.length === 0) {
+        showToast('no photos to clear');
+        return;
+      }
+      if (confirm('Delete all photos?')) {
+        photos = [];
+        savePhotos();
+        render();
+        showToast('all photos cleared');
+      }
+    }
+
+    // add photos from FileList
+    function addPhotosFromFiles(fileList) {
+      if (!fileList || fileList.length === 0) return;
+
+      const files = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+      if (files.length === 0) {
+        showToast('please select image files');
+        return;
+      }
+
+      // limit file size to 2MB each
+      const maxSize = 2 * 1024 * 1024; // 2MB
+      const validFiles = files.filter(f => f.size <= maxSize);
+      if (validFiles.length !== files.length) {
+        showToast('some files exceed 2MB limit (skipped)');
+      }
+      if (validFiles.length === 0) return;
+
+      let loaded = 0;
+      const total = validFiles.length;
+
+      validFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const dataURL = e.target.result;
+          // generate a short name
+          let name = file.name;
+          if (name.length > 25) {
+            const ext = name.split('.').pop();
+            name = name.substring(0, 20) + '….' + ext;
+          }
+          photos.push({
+            id: Date.now() + Math.random() + loaded,
+            dataURL: dataURL,
+            name: name,
+            timestamp: Date.now()
+          });
+          loaded++;
+          if (loaded === total) {
+            savePhotos();
+            render();
+            showToast(`✅ ${total} photo(s) uploaded`);
+          }
+        };
+        reader.onerror = function() {
+          loaded++;
+          if (loaded === total) {
+            savePhotos();
+            render();
+            showToast('some images failed to load');
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ---------- TOAST ----------
+    let toastTimeout = null;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      if (!el) return;
+      el.textContent = msg || '✨';
+      el.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        el.classList.remove('show');
+      }, 2200);
+    }
+
+    // ---------- SETUP UI ----------
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPhotos();
+      render();
+
+      // trigger upload button
+      const fileInput = document.getElementById('fileInput');
+      const triggerBtn = document.getElementById('triggerUpload');
+
+      if (triggerBtn && fileInput) {
+        triggerBtn.addEventListener('click', function() {
+          fileInput.click();
+        });
+      }
+
+      // file input change
+      if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+          if (this.files && this.files.length > 0) {
+            addPhotosFromFiles(this.files);
+            this.value = ''; // reset so same file can be re-uploaded
+          }
+        });
+      }
+
+      // clear all
+      const clearBtn = document.getElementById('clearAllBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', clearAllPhotos);
+      }
+
+      // drag and drop support on the upload zone
+      const zone = document.querySelector('.upload-zone');
+      if (zone) {
+        zone.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          this.style.borderColor = '#b48b6b';
+          this.style.background = '#fcf5ea';
+        });
+        zone.addEventListener('dragleave', function(e) {
+          this.style.borderColor = '#dccfc0';
+          this.style.background = '#fcf8f2';
+        });
+        zone.addEventListener('drop', function(e) {
+          e.preventDefault();
+          this.style.borderColor = '#dccfc0';
+          this.style.background = '#fcf8f2';
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            addPhotosFromFiles(e.dataTransfer.files);
+          }
+        });
+      }
+
+      // optional: keyboard shortcut - not needed
+    });
+
+  })();
+</script>
+</body>
+</html>
