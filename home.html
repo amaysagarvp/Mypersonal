@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My memorable page · personal</title>
+  <!-- Font Awesome for icons (optional but nice) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f7f3e9 0%, #fff9f0 100%);
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 250, 240, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 3.5rem 3.5rem 2.5rem 2.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.7);
+      padding: 2.2rem 2.5rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 235, 200, 0.5);
+    }
+
+    /* header / intro */
+    .profile {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.8rem;
+      margin-bottom: 2.8rem;
+      border-bottom: 2px dashed #e6d6b8;
+      padding-bottom: 1.8rem;
+    }
+
+    .avatar {
+      background: #d9c7ae;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3.4rem;
+      color: #4d3e2e;
+      box-shadow: 0 8px 14px rgba(100, 70, 40, 0.15);
+      background: #eedccb;
+      background-image: radial-gradient(circle at 30% 30%, #f8ede0, #dcc6b0);
+      flex-shrink: 0;
+    }
+
+    .greeting h1 {
+      font-size: 2.6rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: #3d2e1e;
+    }
+
+    .greeting p {
+      font-size: 1.1rem;
+      color: #6b5a48;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .greeting p i {
+      color: #b48b6b;
+      width: 1.6rem;
+    }
+
+    /* memorable grid */
+    .memories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2.8rem 0 2.2rem;
+    }
+
+    .memory-item {
+      background: #fffbf5;
+      border-radius: 2rem;
+      padding: 1.8rem 1.2rem 1.5rem;
+      box-shadow: 0 6px 18px rgba(150, 110, 70, 0.08);
+      transition: 0.25s ease;
+      border: 1px solid #f1e3d2;
+      text-align: center;
+      backdrop-filter: blur(2px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .memory-item:hover {
+      transform: translateY(-8px);
+      border-color: #dbbd9e;
+      box-shadow: 0 16px 28px -8px rgba(100, 70, 40, 0.18);
+      background: #fffdf9;
+    }
+
+    .memory-icon {
+      font-size: 2.8rem;
+      color: #8b6f52;
+      background: #efe4d7;
+      width: 70px;
+      height: 70px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      transition: 0.2s;
+    }
+
+    .memory-item:hover .memory-icon {
+      background: #dcc6b0;
+      color: #4d3422;
+      transform: scale(1.02);
+    }
+
+    .memory-item h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2f2418;
+      letter-spacing: -0.3px;
+    }
+
+    .memory-item .date-tag {
+      display: inline-block;
+      background: #e7d9c8;
+      color: #4d3e2e;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .memory-item p {
+      color: #5a4a38;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      margin: 6px 0 0;
+      padding: 0 4px;
+    }
+
+    .memory-item .heart-btn {
+      background: transparent;
+      border: 1.5px solid #dac2ab;
+      color: #a58368;
+      border-radius: 40px;
+      padding: 0.3rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fcf6ee;
+    }
+
+    .memory-item .heart-btn i {
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    .memory-item .heart-btn:hover {
+      background: #f5e8db;
+      border-color: #b48b6b;
+      color: #3f2e1c;
+    }
+
+    .memory-item .heart-btn.liked i {
+      color: #c44f4f;
+      text-shadow: 0 0 6px rgba(196, 79, 79, 0.3);
+    }
+
+    .memory-item .heart-btn.liked {
+      background: #fce7e7;
+      border-color: #c44f4f;
+      color: #942d2d;
+    }
+
+    /* footer / add new memory */
+    .add-memory-area {
+      margin-top: 2rem;
+      padding-top: 1.8rem;
+      border-top: 2px dashed #e6d6b8;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .add-memory-area h3 {
+      font-weight: 500;
+      color: #3d2e1e;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+    }
+
+    .add-memory-area h3 i {
+      color: #b48b6b;
+    }
+
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 300px;
+    }
+
+    .input-group input {
+      flex: 2 1 180px;
+      background: #fffcf7;
+      border: 1px solid #dccfc0;
+      border-radius: 60px;
+      padding: 0.7rem 1.2rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: 0.2s;
+      font-family: inherit;
+      color: #2a1f15;
+    }
+
+    .input-group input:focus {
+      border-color: #b48b6b;
+      box-shadow: 0 0 0 3px rgba(180, 139, 107, 0.2);
+      background: #ffffff;
+    }
+
+    .input-group button {
+      background: #dcc6b0;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #2f2418;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+      border: 1px solid #ceb69b;
+      background: #e7d7c4;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .input-group button:hover {
+      background: #d4bea8;
+      border-color: #b18666;
+      transform: scale(1.01);
+      box-shadow: 0 4px 8px rgba(100, 70, 40, 0.1);
+    }
+
+    .counter-memories {
+      font-size: 0.9rem;
+      color: #6b5a48;
+      background: #ede3d7;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .footer-note {
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+      color: #a58d78;
+      text-align: right;
+      letter-spacing: 0.3px;
+    }
+
+    /* responsive */
+    @media (max-width: 640px) {
+      .card { padding: 1.5rem; }
+      .profile { flex-direction: column; align-items: flex-start; }
+      .greeting h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="card" id="app">
+
+  <!-- profile header -->
+  <div class="profile">
+    <div class="avatar">
+      <i class="fas fa-feather-alt"></i>
+    </div>
+    <div class="greeting">
+      <h1>✦ My memorable things</h1>
+      <p>
+        <i class="fas fa-map-pin"></i> moments that matter ·
+        <span id="memoryCounter">3</span> memories
+      </p>
+    </div>
+  </div>
+
+  <!-- memories grid -->
+  <div class="memories-grid" id="memoriesContainer">
+    <!-- items will be injected via js, but we keep static fallback -->
+  </div>
+
+  <!-- add new memory -->
+  <div class="add-memory-area">
+    <h3><i class="fas fa-pen-fancy"></i> add a memory</h3>
+    <div class="input-group">
+      <input type="text" id="memoryInput" placeholder="e.g. 'Hiking in the Alps'" maxlength="50">
+      <button id="addMemoryBtn"><i class="fas fa-plus-circle"></i> add</button>
+    </div>
+    <div class="counter-memories">
+      <i class="far fa-heart"></i> <span id="likeCounter">0</span>
+    </div>
+  </div>
+  <div class="footer-note">
+    <i class="fas fa-arrow-right"></i> click heart to like · each memory is yours
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- MEMORY DATA ----------
+    // preloaded memorable moments (feel free to change)
+    const defaultMemories = [
+      {
+        id: 1,
+        title: 'First hike in the Alps',
+        description: 'Crisp air, snow peaks, and a perfect sunrise.',
+        date: 'June 2024',
+        icon: 'fa-mountain',
+        liked: false
+      },
+      {
+        id: 2,
+        title: 'Graduation day',
+        description: 'Celebrated with family under the old oak tree.',
+        date: 'May 2023',
+        icon: 'fa-graduation-cap',
+        liked: false
+      },
+      {
+        id: 3,
+        title: 'Beach sunset with friends',
+        description: 'Golden hour, laughter, and waves.',
+        date: 'August 2022',
+        icon: 'fa-umbrella-beach',
+        liked: false
+      }
+    ];
+
+    // load from localStorage or use defaults
+    let memories = [];
+    let nextId = 1;
+
+    function loadMemories() {
+      const stored = localStorage.getItem('myMemoriesData');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length) {
+            memories = parsed;
+            // find max id for nextId
+            const maxId = memories.reduce((acc, m) => (m.id > acc ? m.id : acc), 0);
+            nextId = maxId + 1;
+            return;
+          }
+        } catch (e) { /* ignore */ }
+      }
+      // fallback to defaults
+      memories = defaultMemories.map(m => ({ ...m }));
+      const maxId = memories.reduce((acc, m) => (m.id > acc ? m.id : acc), 0);
+      nextId = maxId + 1;
+      saveMemories();
+    }
+
+    function saveMemories() {
+      localStorage.setItem('myMemoriesData', JSON.stringify(memories));
+    }
+
+    // ---------- RENDER ----------
+    const container = document.getElementById('memoriesContainer');
+    const memoryCounter = document.getElementById('memoryCounter');
+    const likeCounterSpan = document.getElementById('likeCounter');
+
+    function render() {
+      if (!container) return;
+
+      if (memories.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column:1/-1; text-align:center; padding:2.5rem; background:#f5ede4; border-radius:3rem; color:#6b5a48;">
+            <i class="fas fa-leaf" style="font-size:2rem; opacity:0.6;"></i>
+            <p style="margin-top:10px;">no memories yet — add one above ✨</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = memories.map(memory => {
+          const likedClass = memory.liked ? 'liked' : '';
+          const heartIcon = memory.liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+          return `
+            <div class="memory-item" data-id="${memory.id}">
+              <div class="memory-icon">
+                <i class="fas ${memory.icon || 'fa-star'}"></i>
+              </div>
+              <h3>${escapeHtml(memory.title)}</h3>
+              <span class="date-tag"><i class="far fa-calendar-alt" style="margin-right:5px;"></i>${escapeHtml(memory.date || 'no date')}</span>
+              <p>${escapeHtml(memory.description || '')}</p>
+              <button class="heart-btn ${likedClass}" data-id="${memory.id}">
+                <i class="${heartIcon}"></i> ${memory.liked ? 'liked' : 'like'}
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // update counters
+      if (memoryCounter) memoryCounter.textContent = memories.length;
+      const totalLikes = memories.filter(m => m.liked).length;
+      if (likeCounterSpan) likeCounterSpan.textContent = totalLikes;
+
+      // re-attach event listeners to like buttons
+      document.querySelectorAll('.heart-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const id = parseInt(this.dataset.id, 10);
+          if (!isNaN(id)) {
+            toggleLike(id);
+          }
+        });
+      });
+    }
+
+    // simple escape to prevent XSS
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---------- ACTIONS ----------
+    function toggleLike(id) {
+      const memory = memories.find(m => m.id === id);
+      if (memory) {
+        memory.liked = !memory.liked;
+        saveMemories();
+        render();
+      }
+    }
+
+    function addMemory(title) {
+      const trimmed = title.trim();
+      if (trimmed === '') {
+        alert('Please write something about your memory.');
+        return false;
+      }
+
+      const newMemory = {
+        id: nextId++,
+        title: trimmed,
+        description: 'A special moment to remember.',
+        date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        icon: 'fa-star',
+        liked: false
+      };
+      memories.push(newMemory);
+      saveMemories();
+      render();
+      return true;
+    }
+
+    // ---------- SETUP UI ----------
+    document.addEventListener('DOMContentLoaded', function() {
+      loadMemories();
+      render();
+
+      // add button
+      const addBtn = document.getElementById('addMemoryBtn');
+      const inputField = document.getElementById('memoryInput');
+      if (addBtn && inputField) {
+        addBtn.addEventListener('click', function() {
+          const val = inputField.value;
+          if (addMemory(val)) {
+            inputField.value = '';
+          }
+        });
+        inputField.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            addBtn.click();
+          }
+        });
+      }
+
+      // optional: remove memory? we didn't add remove to keep it simple, but we can add double-click to remove? (not needed)
+    });
+
+  })();
+</script>
+</body>
+</html>
